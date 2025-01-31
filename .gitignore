@@ -1,0 +1,6 @@
+envNLP/
+__pycache__/
+
+# Data
+test_without_labels.csv
+train_submission.csv
