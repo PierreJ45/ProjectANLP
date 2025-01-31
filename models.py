@@ -2,12 +2,14 @@ import random
 import langid
 import pycountry
 from utils import get_unicode
+from abc import abstractmethod, ABC
 
 
-class Model:
+class Model(ABC):
     def __init__(self, labels):
         self.labels = labels
 
+    @abstractmethod
     def infer(self, text) -> str | None: ...
 
     def validate(self, text_list, label_list):
@@ -58,29 +60,25 @@ class LangidModel(Model):
 
 
 class StatModel(Model):
-    def __init__(self, labels, language_unicodes, seed):
+    def __init__(self, labels, unicode_languages, seed):
         super().__init__(labels)
-        self.language_unicodes = language_unicodes
+        self.unicode_languages = (
+            unicode_languages  # key: unicode value: set of languages
+        )
         self.seed = seed
 
     def infer(self, text):
-        possible_languages = set()
+        possible_languages = set(self.labels)
+        random.seed(self.seed)
 
         for char in text:
+            aux_possible_languages_list = list(possible_languages)
             char_unicode = get_unicode(char)
-            print(char_unicode)
-            print(self.language_unicodes.keys())
-            if char_unicode in self.language_unicodes:
-                print(self.language_unicodes[char_unicode])
-                possible_languages.add(self.language_unicodes[char_unicode])
 
-        if len(possible_languages) == 1:
-            print("a")
-            return list(possible_languages)[0]
+            if char_unicode in self.unicode_languages:
+                possible_languages.intersection(self.unicode_languages[char_unicode])
 
-        if len(possible_languages) == 0:
-            return "tgk"
+            if len(possible_languages) == 0:
+                return random.choice(aux_possible_languages_list)
 
-        random.seed(self.seed)
-        print("c")
         return random.choice(list(possible_languages))
