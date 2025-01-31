@@ -8,7 +8,7 @@ class Model:
     def __init__(self, labels):
         self.labels = labels
 
-    def infer(self, text): ...
+    def infer(self, text) -> str | None: ...
 
     def validate(self, text_list, label_list):
         """
@@ -68,7 +68,10 @@ class StatModel(Model):
 
         for char in text:
             char_unicode = get_unicode(char)
+            print(char_unicode)
+            print(self.language_unicodes.keys())
             if char_unicode in self.language_unicodes:
+                print(self.language_unicodes[char_unicode])
                 possible_languages.add(self.language_unicodes[char_unicode])
 
         if len(possible_languages) == 1:
