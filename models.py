@@ -76,7 +76,7 @@ class StatModel(Model):
             char_unicode = get_unicode(char)
 
             if char_unicode in self.unicode_languages:
-                possible_languages.intersection(self.unicode_languages[char_unicode])
+                possible_languages = possible_languages.intersection(self.unicode_languages[char_unicode])
 
             if len(possible_languages) == 0:
                 return random.choice(aux_possible_languages_list)

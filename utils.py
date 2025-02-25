@@ -31,7 +31,7 @@ def process_unicode(dataset, get_unicode):
     get_unicode (function): The function to get Unicode from character.
     
     Returns:
-    set, dict: A set of all unique Unicode code points and a dict mapping languages to their unique Unicode code points.
+    set, dict: A set of all unique Unicode code points and a dict mapping languages to their Unicode code points.
     """
     # Initialize a set for all unique Unicode values
     all_unicodes = set()
@@ -41,6 +41,7 @@ def process_unicode(dataset, get_unicode):
 
     # Iterate through each row in the dataset
     for index, row in dataset.iterrows():
+
         # Get the language and the text
         language = row['Label']
         text = row['Text']  # Assuming 'Text' column contains the actual text
