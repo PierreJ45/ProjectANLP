@@ -103,3 +103,30 @@ class StatModel(Model):
                 return random.choice(aux_possible_languages_list)
 
         return random.choice(list(possible_languages))
+    
+class StatModelOnlyIf1Language(Model) :
+    def __init__(
+        self,
+        labels: list[Language],
+        unicode_languages: dict[Unicode, set[Language]]
+    ):
+        super().__init__(labels)
+        self.unicode_languages = (
+            unicode_languages  # key: unicode value: set of languages
+        )
+
+    def infer(self, text: str) -> Language:
+        possible_languages = set(self.labels)
+
+        for char in text:
+            char_unicode = get_unicode(char)
+
+            if char_unicode in self.unicode_languages:
+                possible_languages = possible_languages.intersection(
+                    self.unicode_languages[char_unicode]
+                )
+
+        if len(possible_languages) == 1:
+            return possible_languages.pop()
+        else:
+            return "None"
