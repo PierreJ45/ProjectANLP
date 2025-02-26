@@ -1,8 +1,15 @@
 from getData import get_train_data
 
 
-train_df_without_NaNs, _ = get_train_data(seed=1, removeNaNs=True, validation_proportion=0)
-LABELS = train_df_without_NaNs['Label'].unique().tolist()
+Unicode = str
+Language = str
+
+
+train_df_without_NaNs, _ = get_train_data(
+    seed=1, removeNaNs=True, validation_proportion=0
+)
+LABELS: list[Language] = train_df_without_NaNs["Label"].unique().tolist()
+
 
 def get_unicode(char):
     """
@@ -19,42 +26,42 @@ def get_unicode(char):
 
     return f"U+{ord(char):04X}"
 
+
 def process_unicode(dataset, get_unicode):
     """
-    Process the dataset to gather unique Unicode code points and 
+    Process the dataset to gather unique Unicode code points and
     associate each with the corresponding language.
-    
+
     Args:
     dataset (DataFrame): The dataset containing language labels and text.
     get_unicode (function): The function to get Unicode from character.
-    
+
     Returns:
     set, dict: A set of all unique Unicode code points and a dict mapping languages to their Unicode code points.
     """
     # Initialize a set for all unique Unicode values
     all_unicodes = set()
-    
+
     # Initialize a dictionary to store unicodes for each language
     language_unicodes = {}
 
     # Iterate through each row in the dataset
     for index, row in dataset.iterrows():
-
         # Get the language and the text
-        language = row['Label']
-        text = row['Text']  # Assuming 'Text' column contains the actual text
+        language = row["Label"]
+        text = row["Text"]  # Assuming 'Text' column contains the actual text
 
         # Initialize a set to store unicodes for this specific language
         language_unicode_set = set()
-        
+
         # Iterate over each character in the text
         for char in text:
             # Get the Unicode for the character
             unicode = get_unicode(char)
-            
+
             # Add the Unicode to the global set
             all_unicodes.add(unicode)
-            
+
             # Add the Unicode to the language-specific set
             language_unicode_set.add(unicode)
 
@@ -65,6 +72,7 @@ def process_unicode(dataset, get_unicode):
             language_unicodes[language].update(language_unicode_set)
 
     return all_unicodes, language_unicodes
+
 
 def inverse_dictionary(dictionary):
     """

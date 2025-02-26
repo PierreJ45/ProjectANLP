@@ -1,6 +1,12 @@
 import pandas as pd
 
-def get_train_data(seed, removeNaNs = False, validation_proportion = 0, shuffle=True):
+
+def get_train_data(
+    seed: int = 42,
+    removeNaNs: bool = False,
+    validation_proportion: float = 0.2,
+    shuffle: bool = True,
+):
     """
     Returns two dataframes
     """
@@ -17,7 +23,8 @@ def get_train_data(seed, removeNaNs = False, validation_proportion = 0, shuffle=
 
     return train_df, validation_df
 
-def get_test_data() :
+
+def get_test_data():
     """
     Returns a dataframe
     """
