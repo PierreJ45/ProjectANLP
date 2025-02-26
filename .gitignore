@@ -5,3 +5,4 @@ __pycache__/
 test_without_labels.csv
 train_submission.csv
 submission.csv
+idNet
