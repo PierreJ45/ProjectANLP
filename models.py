@@ -3,6 +3,10 @@ import langid
 import pycountry
 
 from abc import abstractmethod, ABC
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
 
 from getData import get_test_data
 from utils import get_unicode, Unicode, Language
@@ -28,6 +32,27 @@ class Model(ABC):
                 correct += 1
             total += 1
         return correct, total
+    
+    def generate_confusion_matrix(self, text_list: list[str], label_list: list[Language]) -> None:
+        """
+        Génère et affiche une matrice de confusion à partir des textes et des étiquettes.
+        """
+        # Prédictions
+        predictions = [self.infer(text) for text in text_list]
+
+        # Génération de la matrice de confusion
+        cm = confusion_matrix(label_list, predictions, labels=self.labels)
+
+        # Création du DataFrame pour une meilleure visualisation
+        cm_df = pd.DataFrame(cm, index=self.labels, columns=self.labels)
+
+        # Affichage de la matrice sous forme de heatmap
+        plt.figure(figsize=(10, 7))
+        sns.heatmap(cm_df, annot=True, fmt='g', cmap='Blues', cbar=False, xticklabels=self.labels, yticklabels=self.labels)
+        plt.title("Matrice de confusion")
+        plt.xlabel("Labels Prédits")
+        plt.ylabel("Labels Vrais")
+        plt.show()
 
     def generate_submission(self, path: str = "submission.csv") -> None:
         test_df = get_test_data()
