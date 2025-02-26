@@ -1,9 +1,7 @@
 from getData import get_train_data
-import os
 
-workspace_path = os.getcwd()
-train_csv_path = os.path.join(workspace_path, 'train_submission.csv')
-train_df_without_NaNs, _ = get_train_data(train_csv_path, seed=1, removeNaNs=True, validation_proportion=0)
+
+train_df_without_NaNs, _ = get_train_data(seed=1, removeNaNs=True, validation_proportion=0)
 LABELS = train_df_without_NaNs['Label'].unique().tolist()
 
 def get_unicode(char):
