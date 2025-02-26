@@ -8,7 +8,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from getData import get_test_data
+from data import get_test_data
 from utils import get_unicode, Unicode, Language
 
 

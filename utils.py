@@ -1,14 +1,5 @@
-from getData import get_train_data
-
-
 Unicode = str
 Language = str
-
-
-train_df_without_NaNs, _ = get_train_data(
-    seed=1, removeNaNs=True, validation_proportion=0
-)
-LABELS: list[Language] = train_df_without_NaNs["Label"].unique().tolist()
 
 
 def get_unicode(char):
