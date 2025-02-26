@@ -5,6 +5,7 @@
 \documentclass[11pt]{article}
 \usepackage{graphicx}
 \usepackage{enumitem}
+\usepackage{hyperref}
 
 % Remove the "review" option to generate the final version.
 \usepackage{EMNLP2023}
@@ -83,7 +84,9 @@ First, we look at numerical information :
 \end{itemize}
 We had to remove 100 lines of train because labels were NaN.
 \\\\
-We also want to look at how balanced the dataset is : Figure \ref{fig:data} shows that most languages have exactly 100 samples in the train set. The languages which have low samples (like 1) are technically an issue, but there is few of them so we consider the dataset balanced enough.
+We also want to look at how balanced the dataset is : \autoref{fig:data} shows that most languages have exactly 100 samples in the train set. The languages which have low samples (like 1) are technically an issue, but there is few of them so we consider the dataset balanced enough.
+\\\\
+We split the dataset in train (90\%) and validation (10\%) sets in order to esstimate the accuracy of our model.
 
 \begin{figure}[h]
     \centering
@@ -101,10 +104,10 @@ given a text, the prediction is randomly sampled among the languages that have b
 \\\\
 This model has a test accuracy of \textbf{0.27}
 \\\\
-This shows that there is indeed information in the character used, that can be exploited with that simple model.
+We also did a similar model (StatModelOnlyIf1Language) : if there is exactly 1 language that matches all of the characters in the input text, we predict it, else we dont predict at all. This has an accuracy of 0.16 because most samples are unpredicted, but on the predicted instances we reach an accuracy of 0.91
 
 \subsection{Deep models}
-We then decided to fine-tune existing deep models, as training from scratch is only feasible with computational power comparable to that of the pre-trained models, which we do not have.
+We then decided to fine-tune existing deep models, as training from scratch is only feasible with computational power and massive amount of data which we do not have.
 \\
 We chose to finetune \textbf{xlm-roberta-large} (2019) from Facebook. It has 561M parameters and is under MIT license. We chose it because :
 \begin{itemize}[noitemsep, topsep=0pt]
@@ -117,18 +120,6 @@ We got an accuracy of \textbf{0.89}
 \section{Results and Analysis}
 
 
-
-
-
-
-
-
-
-
-
-
-
-% Entries for the entire Anthology, followed by custom entries
 \bibliography{anthology,custom}
 \bibliographystyle{acl_natbib}
 
