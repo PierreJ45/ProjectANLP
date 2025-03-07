@@ -119,6 +119,11 @@ We got an accuracy of \textbf{0.89}
 
 \section{Results and Analysis}
 
+We notice that deep learning models, especially pretrained ones, seem to be the most effective, probably because NLP tasks are easily transferable, and having seen a lot of data (a lot more than the dataset we had) makes up for the fact that it was not trained on our specific task.
+
+We can also see from the StatModelOnlyIf1Langage experiment (cf section 2) that there is a lot of information contained in the characters used, such that we can reach 0.91 accuracy on some cases. It should be possible to hybrid that with deep learning as follows : first deal with the "easy cases" with the 0.91 accuracy model, then process the rest with the deep model. We did not do it because 0.91  is only slightly higher than 0.89. Furthermore, the "easy case" for this simple model is likely easy for the deep model as well, that has maybe more than 0.91 accuracy on those data points.
+This could maybe have been useful if we had more training constraints or if using pretrained models was not allowed for instance.
+
 
 \bibliography{anthology,custom}
 \bibliographystyle{acl_natbib}
