@@ -63,7 +63,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-We started by analyzing the data, then we have implemented some basic models to take advantage of the different caracters of each alphabet. We then explored the deep learning models mostly by fine-tuning relevant models. Finally, we analyzed the results.
+We started by analyzing the data, then we have implemented some basic models to take advantage of the different characters of each alphabet. We then explored the deep learning models mostly by fine-tuning relevant models. Finally, we analyzed the results.
 \end{abstract}
 
 \section{Introduction}
@@ -86,7 +86,7 @@ We had to remove 100 lines of train because labels were NaN.
 \\\\
 We also want to look at how balanced the dataset is : \autoref{fig:data} shows that most languages have exactly 100 samples in the train set. The languages which have low samples (like 1) are technically an issue, but there is few of them so we consider the dataset balanced enough.
 \\\\
-We split the dataset in train (90\%) and validation (10\%) sets in order to esstimate the accuracy of our model.
+We split the dataset in train (90\%) and validation (10\%) sets in order to estimate the accuracy of our model.
 
 \begin{figure}[h]
     \centering
@@ -104,7 +104,7 @@ given a text, the prediction is randomly sampled among the languages that have b
 \\\\
 This model has a test accuracy of \textbf{0.27}
 \\\\
-We also did a similar model (StatModelOnlyIf1Language) : if there is exactly 1 language that matches all of the characters in the input text, we predict it, else we dont predict at all. This has an accuracy of 0.16 because most samples are unpredicted, but on the predicted instances we reach an accuracy of 0.91
+We also did a similar model (StatModelOnlyIf1Language) : if there is exactly 1 language that matches all of the characters in the input text, we predict it, else we don't predict at all. This has an accuracy of 0.16 because most samples are unpredicted, but on the predicted instances we reach an accuracy of 0.91
 
 \subsection{Deep models}
 We then decided to fine-tune existing deep models, as training from scratch is only feasible with computational power and massive amount of data which we do not have.
@@ -113,6 +113,14 @@ We chose to finetune \textbf{xlm-roberta-large} (2019) from Facebook. It has 561
 \begin{itemize}[noitemsep, topsep=0pt]
     \item It is made to be finetuned
     \item it is popular on HuggingFace (https://huggingface.co/FacebookAI/xlm-roberta-large)
+\end{itemize}
+
+We first tried to finetune only the last layer, but it worked poorly (probably because the pretrain task is too different from our task).
+We then finetuned all the weights. The hyperparameters used on the most successful run were :
+\begin{itemize}
+    \item 67 epochs
+    \item 2e-5 learning rate
+    \item 64 batch size
 \end{itemize}
 
 We got an accuracy of \textbf{0.89}
